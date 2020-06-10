@@ -1,0 +1,56 @@
+Accesspoint.pcap
+--------------------------------------------------------------------
+Inter0ptik is on the lam and is pinned down. The area is crawling with cops, and so he must stay put.
+But he also desperately needs to be able to get a message out to Ann and Mr. X.
+Lucky for him he detects a single wireless access point (WAP) in the building next door that he might be able to use,
+but it is using encryption and there are no other opportunities available. What is Inter0ptik to do?
+
+Meanwhile, next door…
+
+Joe is a sysadmin at HackMe, Inc. He runs the technical infrastructure for a small company, including a WAP that he uses, pretty much exclusively,
+and also very rarely. He’s trying to use it now and has discovered his connection is dropping consistently. He captures some traffic,
+but he really has no idea how to interpret it. Suddenly he discovers he can’t even login to administer his WAP at all!
+
+You are the forensic investigator.
+Your team got a tip that Inter0ptik might be hunkered down in the area and contacted local admins concerning suspicious network activity.
+Joe has provided you with his packet capture and helpfully tells you that his own MAC address is 00:11:22:33:44:55.
+Can you figure out what’s going on and track the attacker’s activities?
+
+1) Joe’s WAP is beaconing. Based on the contents of the packet capture,
+what are:
+a. The SSID of his access point?
+b. The BSSID of his access point?
+
+1.	SSID:  Ment0rNet
+
+2.	BSSID: 00:23:69:61:00:d0
+         
+2) How long is the packet capture, from beginning to end (in SECONDS –
+please round to the nearest full second)?
+413.576seconds- 414 secs
+
+3) How many WEP-encrypted data frames are there total in the packet capture?
+There are 59274 WEP-encrypted data frames in our capture file.
+
+4) How many *unique* WEP initialization vectors (IVs) are there TOTAL in
+the packet capture relating to Joe’s access point?
+29719 unique WEP IVs during the capture.
+
+5) What was the MAC address of the station executing the Layer 2 attacks?
+The mac address of the station making the layer 2 attacks is 1c:4b:d6:69:cd:07. Having 81,535 packets. Found in Statistics->endpoints->IEE 802.11
+
+6) How many *unique* IVs were generated (relating to Joe’s access point):
+a. By the attacker station? The answer is 14133.
+
+b. By all *other* stations combined?  The answer is 15587
+
+7) What was the WEP key of Joe’s WAP?
+Using aircrack-ng (Helpful in decryption of key)
+D0:E5:9E:B9:04.
+
+8) What were the administrative username and password of the targeted
+wireless access point?
+After applying filter http.authbasic
+username: admin  password: admin
+9) What was the WAP administrative passphrase changed to?
+ PassPhrase=hahp0wnedJ00
