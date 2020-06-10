@@ -1,0 +1,27 @@
+1.	What type of ICMP traffic is shown in this capture?
+The packet capture displays the type of packet (echo request/reply) in the ‘info’ column. I looked at the header information and determined the type of ICMP message from the first field ‘Type’. 
+
+Echo (ping) ICMP reply(Type 0) and request (Type 8), Destination Unreachable (Type 3)
+
+2.	What is the number of the first frame that indicates that something funny might be going on?
+We can notice from the hex view that frame no. 15 was the first frame that indicated the beginning of an SSH connection. The host 192.168.5.217 kept sending ICMP reply packets every 1 or 2 seconds till frame 26 without waiting for a request which seemed strange.
+
+15 (Unprompted reply with suspicious content - SSH-2.0-OpenSSH_5.3p1 Debian-3ubuntu6...)
+
+3.	What is the application layer protocol that is hidden within the ICMP traffic?
+Select frame no. 38 with length 958. As examine the Hex view, we come across the plain text ‘OpenSSH’. This indicated that the hidden protocol being used was SSH.
+       Ssh
+
+4.	What tool most likely generated this 'malicious' traffic?
+The tool that generated this traffic must support SSH traffic hidden within ICMP traffic also known as ICMP tunneling.. It allows a user to connect to a remote shell daemon, by using ICMP protocol instead of classical TCP. 
+
+ICMP Tunnel
+
+5.	What is the 'true' destination of the ICMP traffic generated from 192.168.5.208?
+Find the true destination by searching the pcap file with the following grep command for ipv4 address: 
+# grep –o –m 1 “[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\” ping.txt 
+
+This displayed only two results, the ip address of the source (192.168.5.208) and the proxy (192.168.5.217). After getting the hint that it was an ipv6 address, try the following command but this too did not provide any results.
+ # grep -e '[0-9a-fA-F]\{1,4\}:[0-9a-fA-F]\{1,4\}:[0-9a-fA-F]\{1,4\}:[0-9a-fA-F]\{1,4\}:[0-9afA-F]\{1,4\}:[0-9a-fA-F]\{1,4\}:[0-9a-fA-F]\{1,4\}:[0-9a-fA-F]\{1,4\}' -e '::[0-9a-fAF]\{1,4\}' ping.txt
+
+An external host accessible through 192.168.5.217
